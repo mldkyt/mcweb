@@ -1,0 +1,33 @@
+
+services:
+  website:
+    build: website/
+    environment:
+      - DB_POSTGRES_HOST=postgres
+      - DB_POSTGRES_USER=lunya
+      - DB_POSTGRES_PASSWORD=lunya
+      - DB_POSTGRES_NAME=lunya
+    develop:
+      watch:
+        - action: rebuild
+          path: ./website
+    restart: always
+    ports:
+      - 8080:8080
+
+  postgres:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=lunya
+      - POSTGRES_PASSWORD=lunya
+      - POSTGRES_DB=lunya
+
+  pgadmin:
+    image: dpage/pgadmin4:9
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: lunya@lunya.pet
+      PGADMIN_DEFAULT_PASSWORD: lunya
+    ports:
+      - 9001:80
