@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"errors"
 	"fmt"
 	"html/template"
 	"math"
@@ -31,7 +32,6 @@ type Player struct {
 
 	Name     string
 	Playtime int64
-	Online   bool
 }
 
 type PlayerTimeTrack struct {
@@ -56,7 +56,7 @@ func ParseTime(secs int) string {
 	secs -= days * 86400
 
 	hours = int(math.Floor(float64(secs) / 3600))
-	secs -= days * 3600
+	secs -= hours * 3600
 
 	minutes = int(math.Floor(float64(secs) / 60))
 
@@ -91,29 +91,36 @@ func HandlePlayers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var onlinePlayers []Pl
+	var players []Pl
 	var onlinePlayersDb []Player
-	db.Where(&Player{Online: true}).Find(&onlinePlayersDb)
+	db.Find(&onlinePlayersDb)
 	for i := 0; i < len(onlinePlayersDb); i++ {
 		var additionalPlaytime = 0
-		var additionalPlaytimeDb PlayerTimeTrack
+		var additionalPlaytimeDb PlayerTimeTrack // PlayerTimeTrack will always have record of online player
 		err := db.Where(&PlayerTimeTrack{Player: onlinePlayersDb[i].Name}).First(&additionalPlaytimeDb)
-		if err != nil {
+		if !errors.Is(err.Error, gorm.ErrRecordNotFound) {
 			additionalPlaytime = int(time.Since(additionalPlaytimeDb.PlayerStartTime).Seconds())
+			onlinePlayers = append(onlinePlayers, Pl{
+				Name:     onlinePlayersDb[i].Name,
+				Playtime: ParseTime(int(onlinePlayersDb[i].Playtime) + additionalPlaytime),
+			})
 		}
 
-		onlinePlayers = append(onlinePlayers, Pl{
+		players = append(players, Pl{
 			Name:     onlinePlayersDb[i].Name,
-			Playtime: ParseTime(int(onlinePlayersDb[i].Playtime) + additionalPlaytime),
+			Playtime: ParseTime(int(onlinePlayersDb[i].Playtime)),
 		})
 	}
 
-	players := make([]Pl, 0)
-	db.Find(&players)
-
 	tmpl.ExecuteTemplate(w, "players", struct {
-		OnlinePlayers []Pl
-		Players       []Pl
-	}{})
+		OnlinePlayers  []Pl
+		Players        []Pl
+		IsOnlinePlayer bool
+	}{
+		OnlinePlayers:  onlinePlayers,
+		Players:        players,
+		IsOnlinePlayer: len(onlinePlayers) > 0,
+	})
 }
 
 func HandleSpawnImage(w http.ResponseWriter, r *http.Request) {
