@@ -5,12 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"io"
 	"math"
 	"net/http"
 	"os"
 	"strings"
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -27,6 +29,12 @@ var spawn []byte
 //go:embed style.css
 var styles string
 
+//go:embed gallery.html
+var gallery string
+
+//go:embed galleryAdmin.html
+var galleryAdmin string
+
 type Player struct {
 	gorm.Model
 
@@ -37,6 +45,15 @@ type Player struct {
 type PlayerTimeTrack struct {
 	Player          string `gorm:"primaryKey"`
 	PlayerStartTime time.Time
+}
+
+type GalleryItem struct {
+	gorm.Model
+
+	FileName    string
+	Description string
+	UserName    string
+	Approved    bool
 }
 
 func ParseTime(secs int) string {
@@ -123,6 +140,190 @@ func HandlePlayers(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func HandleGallery(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		err := r.ParseMultipartForm(10 << 20)
+		if err != nil {
+			err = fmt.Errorf("parsing multipart form failed: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		// Validate the ign
+		name := r.FormValue("ign")
+		if len(name) <= 2 || len(name) >= 16 {
+			err = errors.New("name must be between 2 and 16 characters")
+			err = fmt.Errorf("failed submitting: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		// Validate the description
+		description := r.FormValue("description")
+		if len(description) <= 10 || len(description) >= 2000 {
+			err = errors.New("description must be between 10 and 2000 characters")
+			err = fmt.Errorf("failed submitting: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		// Get file
+		file, handler, err := r.FormFile("image")
+		if err != nil {
+			err = fmt.Errorf("failed parsing file: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+		defer file.Close()
+
+		// Read file
+		fileData, err := io.ReadAll(file)
+		if err != nil {
+			err = fmt.Errorf("error reading file: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		// Content Type
+		contentType := http.DetectContentType(fileData)
+		if !strings.HasPrefix(contentType, "image/") {
+			err = errors.New("invalid content-type")
+			err = fmt.Errorf("failed verifying upload: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		// Determine extension
+		fileNameSplit := strings.Split(handler.Filename, ".")
+		ext := fileNameSplit[len(fileNameSplit)-1]
+
+		// Write
+		dst, err := os.Create(fmt.Sprintf("gallery/%s.%s", uuid.New().String(), ext))
+		if err != nil {
+			err = fmt.Errorf("failed creating file: %w", err)
+			fmt.Print(w, err)
+			return
+		}
+
+		_, err = dst.Write(fileData)
+		if err != nil {
+			err = fmt.Errorf("failed writing data: %w", err)
+			fmt.Print(w, err)
+			return
+		}
+
+		defer dst.Close()
+
+		// DB insert
+
+		http.Redirect(w, r, "/gallery", http.StatusSeeOther)
+		return
+	}
+
+	tmpl, err := template.New("gallery").Parse(gallery)
+	if err != nil {
+		w.WriteHeader(500)
+		w.Write([]byte("An internal server error occured"))
+		return
+	}
+
+	var galleryItemsDb []GalleryItem
+	var data []struct {
+		Name        string
+		Url         string
+		Description string
+	}
+	db.Where(&GalleryItem{Approved: true}).Find(&galleryItemsDb)
+	for i := 0; i < len(data); i++ {
+		data = append(data, struct {
+			Name        string
+			Url         string
+			Description string
+		}{
+			Name:        galleryItemsDb[i].UserName,
+			Url:         fmt.Sprintf("/gallery/%s", galleryItemsDb[i].FileName),
+			Description: galleryItemsDb[i].Description,
+		})
+	}
+
+	tmpl.Execute(w, struct {
+		Items []struct {
+			Name        string
+			Url         string
+			Description string
+		}
+	}{
+		Items: data,
+	})
+}
+
+func HandleGalleryFiles(w http.ResponseWriter, r *http.Request) {
+
+	args := strings.Split(r.URL.Path, "/")
+	fileName := args[len(args)-1]
+
+	dst, err := os.Open(fmt.Sprintf("gallery/%s", fileName))
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	defer dst.Close()
+
+	read, err := io.ReadAll(dst)
+	if err != nil {
+		err = fmt.Errorf("unable to read file: %w", err)
+		fmt.Fprint(w, err)
+	}
+
+	contentType := http.DetectContentType(read)
+	r.Header.Set("Content-Type", contentType)
+
+	w.Write(read)
+}
+
+func HandleGalleryAdmin(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		err := r.ParseForm()
+		if err != nil {
+			err = fmt.Errorf("unable to parse form data: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+	}
+
+	tmpl, err := template.New("galleryAdmin").Parse(galleryAdmin)
+	if err != nil {
+		err = fmt.Errorf("failed loading template: %w", err)
+		fmt.Fprint(w, err)
+		return
+	}
+
+	var galleryItem GalleryItem
+	transact := db.First(&galleryItem)
+	if errors.Is(transact.Error, gorm.ErrRecordNotFound) {
+		tmpl.Execute(w, struct {
+			NotFound bool
+		}{
+			NotFound: true,
+		})
+
+		return
+	}
+
+	tmpl.Execute(w, struct {
+		Id          int
+		Name        string
+		Description string
+		Url         string
+	}{
+		Id:          int(galleryItem.ID),
+		Name:        galleryItem.UserName,
+		Description: galleryItem.Description,
+		Url:         fmt.Sprintf("/gallery/%s", galleryItem.FileName),
+	})
+}
+
 func HandleSpawnImage(w http.ResponseWriter, r *http.Request) {
 	w.Write(spawn)
 }
@@ -150,12 +351,17 @@ func main() {
 
 	db.AutoMigrate(&Player{})
 	db.AutoMigrate(&PlayerTimeTrack{})
+	db.AutoMigrate(&GalleryItem{})
 
 	// Home page
 	http.HandleFunc("/", http.HandlerFunc(HandleIndex))
 
 	// Players
 	http.HandleFunc("/players", http.HandlerFunc(HandlePlayers))
+
+	// Gallery
+	http.HandleFunc("/gallery", http.HandlerFunc(HandleGallery))
+	http.Handle("/gallery/", http.HandlerFunc(HandleGalleryFiles))
 
 	// Other
 	http.HandleFunc("/spawn.webp", http.HandlerFunc(HandleSpawnImage))
