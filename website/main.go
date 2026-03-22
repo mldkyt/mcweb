@@ -9,6 +9,7 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -197,8 +198,10 @@ func HandleGallery(w http.ResponseWriter, r *http.Request) {
 		fileNameSplit := strings.Split(handler.Filename, ".")
 		ext := fileNameSplit[len(fileNameSplit)-1]
 
+		uuid := uuid.New().String()
+
 		// Write
-		dst, err := os.Create(fmt.Sprintf("gallery/%s.%s", uuid.New().String(), ext))
+		dst, err := os.Create(fmt.Sprintf("gallery/%s.%s", uuid, ext))
 		if err != nil {
 			err = fmt.Errorf("failed creating file: %w", err)
 			fmt.Print(w, err)
@@ -215,6 +218,12 @@ func HandleGallery(w http.ResponseWriter, r *http.Request) {
 		defer dst.Close()
 
 		// DB insert
+		db.Create(&GalleryItem{
+			FileName:    fmt.Sprintf("gallery/%s.%s", uuid, ext),
+			Description: description,
+			UserName:    name,
+			Approved:    false,
+		})
 
 		http.Redirect(w, r, "/gallery", http.StatusSeeOther)
 		return
@@ -233,8 +242,8 @@ func HandleGallery(w http.ResponseWriter, r *http.Request) {
 		Url         string
 		Description string
 	}
-	db.Where(&GalleryItem{Approved: true}).Find(&galleryItemsDb)
-	for i := 0; i < len(data); i++ {
+	db.Where(&GalleryItem{Approved: true}).Order("created_at DESC").Find(&galleryItemsDb)
+	for i := 0; i < len(galleryItemsDb); i++ {
 		data = append(data, struct {
 			Name        string
 			Url         string
@@ -282,6 +291,13 @@ func HandleGalleryFiles(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleGalleryAdmin(w http.ResponseWriter, r *http.Request) {
+	user, pass, ok := r.BasicAuth()
+	if !ok || user != os.Getenv("ADMIN_USER") || pass != os.Getenv("ADMIN_PASS") {
+		w.Header().Set("WWW-Authenticate", `Basic realm="restricted", charset="UTF-8"`)
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
 	if r.Method == "POST" {
 		err := r.ParseForm()
 		if err != nil {
@@ -290,6 +306,76 @@ func HandleGalleryAdmin(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		id := -1
+		if parsedId, err := strconv.Atoi(r.FormValue("id")); err == nil {
+			id = parsedId
+		} else {
+			err := errors.New("ID is not a number")
+			err = fmt.Errorf("failed to parse data: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		if del := r.FormValue("delete"); del == "on" {
+			// Delete row, file and exit
+
+			var galleryItem GalleryItem
+			tra := db.Where("id = ?", id).First(&galleryItem)
+			if errors.Is(tra.Error, gorm.ErrRecordNotFound) {
+				err = fmt.Errorf("failed to update record: %w", err)
+				fmt.Fprint(w, err)
+				return
+			}
+
+			err = os.Remove(galleryItem.FileName)
+			if err != nil {
+				err = fmt.Errorf("failed to delete file: %w", err)
+				fmt.Fprint(w, err)
+				return
+			}
+
+			db.Delete(&galleryItem)
+
+			http.Redirect(w, r, "/admin/gallery", http.StatusSeeOther)
+			return
+		}
+
+		name := r.FormValue("name")
+		if len(name) < 2 || len(name) > 16 {
+			err := errors.New("name is out of range of 2;16")
+			err = fmt.Errorf("failed to parse data: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		description := r.FormValue("description")
+		if len(description) < 10 || len(description) > 2000 {
+			err := errors.New("description is out of range of 10;2000")
+			err = fmt.Errorf("failed to parse data: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		approved := r.FormValue("approved") == "on"
+
+		fmt.Println("Approved is ", approved)
+
+		var galleryItem GalleryItem
+		tra := db.Where("id = ?", id).First(&galleryItem)
+		if errors.Is(tra.Error, gorm.ErrRecordNotFound) {
+			err = fmt.Errorf("failed to update record: %w", err)
+			fmt.Fprint(w, err)
+			return
+		}
+
+		galleryItem.UserName = name
+		galleryItem.Description = description
+		galleryItem.Approved = approved
+
+		db.Save(&galleryItem)
+
+		http.Redirect(w, r, "/admin/gallery", http.StatusSeeOther)
+		return
 	}
 
 	tmpl, err := template.New("galleryAdmin").Parse(galleryAdmin)
@@ -299,28 +385,43 @@ func HandleGalleryAdmin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var galleryItem GalleryItem
-	transact := db.First(&galleryItem)
-	if errors.Is(transact.Error, gorm.ErrRecordNotFound) {
-		tmpl.Execute(w, struct {
-			NotFound bool
-		}{
-			NotFound: true,
-		})
+	var galleryItemsDb []GalleryItem
+	db.Order("created_at DESC").Find(&galleryItemsDb)
+	var galleryItems []struct {
+		Id          int
+		Url         string
+		Name        string
+		Description string
+		Approved    bool
+	}
 
-		return
+	for i := 0; i < len(galleryItemsDb); i++ {
+
+		galleryItems = append(galleryItems, struct {
+			Id          int
+			Url         string
+			Name        string
+			Description string
+			Approved    bool
+		}{
+			Id:          int(galleryItemsDb[i].ID),
+			Url:         fmt.Sprintf("/gallery/%s", galleryItemsDb[i].FileName),
+			Name:        galleryItemsDb[i].UserName,
+			Description: galleryItemsDb[i].Description,
+			Approved:    galleryItemsDb[i].Approved,
+		})
 	}
 
 	tmpl.Execute(w, struct {
-		Id          int
-		Name        string
-		Description string
-		Url         string
+		Items []struct {
+			Id          int
+			Url         string
+			Name        string
+			Description string
+			Approved    bool
+		}
 	}{
-		Id:          int(galleryItem.ID),
-		Name:        galleryItem.UserName,
-		Description: galleryItem.Description,
-		Url:         fmt.Sprintf("/gallery/%s", galleryItem.FileName),
+		Items: galleryItems,
 	})
 }
 
@@ -362,6 +463,7 @@ func main() {
 	// Gallery
 	http.HandleFunc("/gallery", http.HandlerFunc(HandleGallery))
 	http.Handle("/gallery/", http.HandlerFunc(HandleGalleryFiles))
+	http.HandleFunc("/admin/gallery", http.HandlerFunc(HandleGalleryAdmin))
 
 	// Other
 	http.HandleFunc("/spawn.webp", http.HandlerFunc(HandleSpawnImage))
