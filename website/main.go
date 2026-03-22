@@ -36,6 +36,9 @@ var gallery string
 //go:embed galleryAdmin.html
 var galleryAdmin string
 
+//go:embed commands.html
+var commands string
+
 type Player struct {
 	gorm.Model
 
@@ -425,6 +428,10 @@ func HandleGalleryAdmin(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func HandleCommands(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(commands))
+}
+
 func HandleSpawnImage(w http.ResponseWriter, r *http.Request) {
 	w.Write(spawn)
 }
@@ -462,8 +469,11 @@ func main() {
 
 	// Gallery
 	http.HandleFunc("/gallery", http.HandlerFunc(HandleGallery))
-	http.Handle("/gallery/", http.HandlerFunc(HandleGalleryFiles))
+	http.HandleFunc("/gallery/", http.HandlerFunc(HandleGalleryFiles))
 	http.HandleFunc("/admin/gallery", http.HandlerFunc(HandleGalleryAdmin))
+
+	// Commands
+	http.HandleFunc("/commands", http.HandlerFunc(HandleCommands))
 
 	// Other
 	http.HandleFunc("/spawn.webp", http.HandlerFunc(HandleSpawnImage))
