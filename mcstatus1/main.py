@@ -15,8 +15,6 @@ players = Table(
     md,
     Column("id", Integer, primary_key=True),
     Column("created_at", DateTime),
-    Column("updated_at", DateTime, nullable=True),
-    Column("deleted_at", DateTime, nullable=True),
     Column("name", VARCHAR),
     Column("playtime", Integer)
 )
