@@ -1,38 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lunya's Minecraft Server</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="description" content="IP: lunya.pet, version 1.21.11, no Microslop account needed!" />
-    <meta name="author" content="lain" />
-    <meta http-equiv="content-language" content="en" />
-    <meta property="og:title" content="Lunya's Minecraft Server" />
-    <meta property="og:description" content="IP: lunya.pet, version 1.21.11, no Microslop account needed!" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://lunya.pet" />
-    <meta property="og:site_name" content="Lunya's Minecraft Server" />
-    <meta property="og:locale" content="en_US" />
-    <meta name="twitter:title" content="Lunya's Minecraft Server" />
-    <meta name="twitter:description" content="IP: lunya.pet, version 1.21.11, no Microslop account needed!" />
-    <meta name="fediverse:creator" content="lunya_mc@the-wired.club" />
+    <?php include '../../components/meta.php'; ?>
 </head>
 <body>
     <img src="spawn.webp" alt="Screenshot of a spawn build. There's a staircase on the front resembling a trans flag and a road to the left resembling a trans flag. There's 2 hearts, a trans one and a lesbian one on top. There's 7 beacons forming sort of a T themed with the lesbian and trans flags. The build has walls mostly out of glass, so it's see through. The inside is mostly empty." id="background">
     <br>
     <br>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/players">Players</a></li>
-                <li><a href="/gallery">Gallery</a></li>
-                <li><a href="/commands">Commands</a></li>
-                <li><a href="https://ko-fi.com/c4tgirl">Donate</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include '../../components/header.php'; ?>
     <main>
         <h1>Commands</h1>
         <p>The server has many plugins and many commands that can be used by an average player.</p>
