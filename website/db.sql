@@ -12,6 +12,7 @@ CREATE TABLE player_time_tracks (
 
 CREATE TABLE gallery_items (
     id SERIAL PRIMARY KEY,
+    ip TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     file_name TEXT NOT NULL,
     description TEXT NOT NULL,
