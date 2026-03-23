@@ -62,7 +62,7 @@ $isOnlinePlayer = count($onlinePlayers) > 0;
 </head>
 <body>
     <img src="/spawn.webp" alt="" id="background">
-
+    <br><br>
     <?php include '../../components/header.php'; ?>
 
     <main>

@@ -12,9 +12,9 @@ CREATE TABLE player_time_tracks (
 
 CREATE TABLE gallery_items (
     id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     file_name TEXT NOT NULL,
     description TEXT NOT NULL,
     user_name TEXT NOT NULL,
-    approved BOOLEAN NOT NULL DEFAULT FALSE,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    approved BOOLEAN NOT NULL DEFAULT FALSE
 );

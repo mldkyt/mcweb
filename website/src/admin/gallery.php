@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         pg_query_params($conn, "DELETE FROM gallery_items WHERE id = $1", [$id]);
 
-        header("Location: /admin/gallery", true, 303);
+        header("Location: /admin/gallery.php", true, 303);
         exit;
     }
 
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         [$name, $description, $approved ? 't' : 'f', $id]
     );
 
-    header("Location: /admin/gallery", true, 303);
+    header("Location: /admin/gallery.php", true, 303);
     exit;
 }
 ?>
@@ -97,10 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         while ($row = pg_fetch_assoc($res)): ?>
         <div style="border: 1px solid white; margin: 4px; padding: 4px;">
-            <form action="/admin/gallery" method="post">
-                <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']) ?>">
-                <img src="<?= htmlspecialchars($row['url']) ?>" alt="<?= htmlspecialchars($row['description']) ?>">
-                <p>Posted by <input type="text" value="<?= htmlspecialchars($row['user_name']) ?>" name="name" id="name"></p>
+            <form action="/admin/gallery.php" method="post">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']); ?>">
+                <img src="/gallery/<?= htmlspecialchars($row['file_name']) ?>" alt="<?= htmlspecialchars($row['description']); ?>">
+                <p>Posted by <input type="text" value="<?= htmlspecialchars($row['user_name']); ?>" name="name" id="name"></p>
                 <p>Description:</p>
                 <textarea name="description" id="description"><?= htmlspecialchars($row['description']) ?></textarea>
                 <br>

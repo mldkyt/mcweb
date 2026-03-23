@@ -2,14 +2,14 @@
 $host = getenv('DB_POSTGRES_HOST');
 $user = getenv('DB_POSTGRES_USER');
 $pass = getenv('DB_POSTGRES_PASSWORD');
-$name = getenv('DB_POSTGRES_NAME');
+$dbName = getenv('DB_POSTGRES_NAME');
 $port = getenv('DB_POSTGRES_PORT') ?: '5432';
 
-$conn = pg_connect("host=$host port=$port dbname=$name user=$user password=$pass");
+$conn = pg_connect("host=$host port=$port dbname=$dbName user=$user password=$pass");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['ign'] ?? '';
-    if (strlen($name) <= 2 || strlen($name) >= 16) {
+    $playerName = $_POST['ign'] ?? '';
+    if (strlen($playerName) <= 2 || strlen($playerName) >= 16) {
         echo "failed submitting: name must be between 2 and 16 characters";
         exit;
     }
@@ -26,6 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $file = $_FILES['image'];
+
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        echo "Upload failed with error code: " . $file['error'];
+        exit;
+    }
+
     $fileData = file_get_contents($file['tmp_name']);
     if ($fileData === false) {
         echo "error reading file";
@@ -41,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
     $uuid = bin2hex(random_bytes(16));
 
-    $path = "gallery/$uuid.$ext";
+    $path = "$uuid.$ext";
 
     if (!file_put_contents($path, $fileData)) {
         echo "failed writing data";
@@ -62,15 +68,6 @@ $res = pg_query(
     $conn,
     "SELECT file_name, description, user_name FROM gallery_items WHERE approved = true ORDER BY created_at DESC"
 );
-
-$items = [];
-while ($row = pg_fetch_assoc($res)) {
-    $items[] = [
-        'Name' => $row['user_name'],
-        'Url' => "/gallery/" . $row['file_name'],
-        'Description' => $row['description']
-    ];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,14 +83,14 @@ while ($row = pg_fetch_assoc($res)) {
         <h1>Gallery</h1>
         <p>Welcome to the gallery!</p>
 
-        <?php foreach ($items as $item): ?>
-            <img alt="<?= htmlspecialchars($item['Description']) ?>" src="<?= htmlspecialchars($item['Url']) ?>">
-            <p>Image uploaded by <?= htmlspecialchars($item['Name']) ?></p>
-        <?php endforeach; ?>
+        <?php while ($row = pg_fetch_assoc($res)): ?>
+            <img alt="<?= htmlspecialchars($row['description']) ?>" src="<?= htmlspecialchars($row['file_name']) ?>">
+            <p>Image uploaded by <?= htmlspecialchars($row['user_name']) ?></p>
+        <?php endwhile; ?>
 
         <h2>Contribute</h2>
 
-        <form action="/gallery" method="post" enctype="multipart/form-data">
+        <form action="/gallery/" method="post" enctype="multipart/form-data">
             <label for="ign">Name</label>
             <br>
             <input type="text" name="ign" id="ign" placeholder="catgirl..." min="2" max="32">
