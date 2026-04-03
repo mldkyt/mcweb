@@ -24,7 +24,7 @@ $port = getenv('DB_POSTGRES_PORT') ?: '5432';
 
 $conn = pg_connect("host=$host port=$port dbname=$name user=$user password=$pass");
 
-$res = pg_query($conn, "SELECT name, playtime FROM players");
+$res = pg_query($conn, "SELECT name, playtime FROM players ORDER BY playtime DESC");
 
 $players = [];
 $onlinePlayers = [];
