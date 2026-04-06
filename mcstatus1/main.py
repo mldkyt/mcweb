@@ -99,8 +99,10 @@ def check_players(players: JavaStatusPlayers):
 
 
 def main():
-    print("Looking up lunya.pet")
-    status = JavaServer.lookup("lunya.pet").status()
+    ip = getenv("MINECRAFT_IP")
+    assert ip is not None
+    print("Looking up", ip)
+    status = JavaServer.lookup(ip).status()
 
     if status.players is None:
         print("Players missing from public data")
