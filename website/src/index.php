@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../components/meta.php'; ?>
+    <?php include "../components/meta.php"; ?>
 </head>
 <body>
     <img src="spawn.webp" alt="Screenshot of a spawn build. There's a staircase on the front resembling a trans flag and a road to the left resembling a trans flag. There's 2 hearts, a trans one and a lesbian one on top. There's 7 beacons forming sort of a T themed with the lesbian and trans flags. The build has walls mostly out of glass, so it's see through. The inside is mostly empty." id="background">
     <br>
     <br>
-    <?php include '../components/header.php'; ?>
+    <?php include "../components/header.php"; ?>
     <main>
         <h1>Welcome to the MC server website!</h1>
         <p>This is the official website for Lunya's Minecraft server! This is a semi-survival vanilla Minecraft server made to be mainly fun. The IP is <code>lunya.pet</code> and any Minecraft version between 1.7.2 and 1.21.11 will work, although we recommend the latest one as that's what the server is on.</p>
         <img src="spawn.webp" alt="Screenshot of a spawn build. There's a staircase on the front resembling a trans flag and a road to the left resembling a trans flag. There's 2 hearts, a trans one and a lesbian one on top. There's 7 beacons forming sort of a T themed with the lesbian and trans flags. The build has walls mostly out of glass, so it's see through. The inside is mostly empty.">
         <p>We have the following plugins installed:</p>
         <ul>
+            <li><strong>Voice Chat!</strong> You can chat with others using the voice chat mod.</li>
             <li><strong>Essentials</strong> for better admin commands, player chat, warps, homes etc.</li>
             <li><strong>CoreProtect</strong> to revert griefs</li>
             <li><strong>WorldGuard</strong> to protect player builds, and spawn</li>
             <li><strong>FAWE</strong> for world editing</li>
             <li><strong>AuthMe fork</strong> for player auth</li>
-            <li><strong>LWC</strong> for locking your belongings</li>
+            <li><strong>GriefPrevention</strong> so you can mark your land and make it ungriefable.</li>
             <li><strong>WildRTP</strong> for random teleportation</li>
             <li><strong>Skript</strong> for more custom things, right now used for various social commands</li>
             <li><strong>Fast Leaf Decay</strong></li>
