@@ -32,6 +32,9 @@
         <h2>Messaging</h2>
         <p>The <code>/w</code> and <code>/msg</code> commands should allow messaging players, quick reply using <code>/r</code> should work too.</p>
 
+        <h2>Puppygirl</h2>
+        <p>You can put a bone in your mouth by using <code>/hat</code> while holding a bone to become a puppygirl. Cute.</p>
+
         <h2>Other commands</h2>
         <p><code>/social</code>, <code>/discord</code>, <code>/xmpp</code>, <code>/matrix</code> and a few others I can't list from my memory bring up social links you can use to get in contact with other people. I recommend Discord as I'm currently the most active there.</p>
 
