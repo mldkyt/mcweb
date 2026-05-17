@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        if (!unlink($item['file_name'])) {
+        if (!unlink('../gallery/'.$item['file_name'])) {
             echo "failed to delete file";
             exit;
         }
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main>
         <h1>Admin gallery</h1>
 
-        <?php 
+        <?php
         $res = pg_query($conn, "SELECT id, file_name, user_name, description, approved FROM gallery_items ORDER BY created_at DESC");
 
         while ($row = pg_fetch_assoc($res)): ?>
