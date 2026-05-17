@@ -46,7 +46,6 @@
             <li>Ender pearls deal less damage, have less cooldown and spawn less endermites</li>
             <li>Netherite items and the nether star cannot be destroyed by cacti, explosions or lightning</li>
             <li>Drinking milk cures only negative status effects</li>
-            <li>Minecarts are only just slightly faster</li>
             <li>If you get stuck in a portal you can move to the other block to teleport back</li>
             <li>Totems of undying work when just in your inventory, they do not have to be in your hand</li>
             <li>You can shift click an item to repair it if it has mending from the player experience</li>
