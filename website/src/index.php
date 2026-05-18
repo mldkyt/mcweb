@@ -54,7 +54,7 @@
         <p>The server is configured in the following way</p>
         <ul>
             <li>The server is in offline mode. Since it's a communnity server I won't introduce any third party required authentication server or (worse yet) Microslop accounts.</li>
-            <li>There's AuthMe to protect accounts on the server. <strong>We won't be removing it, please don't complain if you can't type /register.</strong></li>
+            <li>There's AuthMe to protect accounts on the server. <strong>We won't be removing it, please don't complain if you can't type /register.</strong>. Also please save your password so that you don't forget it.</li>
         </ul>
 
         <p><strong>Please note this is a semi-survival server.</strong> You can freely ask admins and moderators for items, and if they're e.g. building blocks (coloured wool, concrete etc) they will give it to you. This is to accelerate the building process while not making the server too unfair. I was originally planning to run a creative server but decided for this semi-survival experience.</p>
