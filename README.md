@@ -1,4 +1,4 @@
-# mc.lunya.pet
+# mc.mldchan.dev
 
 This is a TODO site! Contributions are welcome but this is not done.
 

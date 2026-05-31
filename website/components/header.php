@@ -6,6 +6,7 @@
             <li><a href="/gallery">Gallery</a></li>
             <li><a href="/signs">Signs</a></li>
             <li><a href="/commands">Commands</a></li>
+            <li><a href="https://map.mc.mldchan.dev">Web Map</a></li>
             <li><a href="https://ko-fi.com/c4tgirl">Donate</a></li>
         </ul>
     </nav>

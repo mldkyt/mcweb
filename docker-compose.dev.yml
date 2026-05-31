@@ -1,4 +1,3 @@
-
 services:
   website:
     build: ./website
@@ -31,7 +30,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:9
     environment:
-      PGADMIN_DEFAULT_EMAIL: lunya@lunya.pet
+      PGADMIN_DEFAULT_EMAIL: luna@localhost
       PGADMIN_DEFAULT_PASSWORD: lunya
     ports:
       - 9001:80
