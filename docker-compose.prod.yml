@@ -4,13 +4,13 @@ services:
     env_file: .env
     networks:
       - postgres
+      - mcweb
     restart: always
-
   mcweb:
     build: ./website
     env_file: .env
-    ports:
-      - "8005:8080"
+    # ports:
+    # - "8005:8080"
     volumes:
       - ./website/src:/var/www/html:z
       - ./website/components:/var/www/components:z
@@ -19,7 +19,29 @@ services:
     restart: always
     networks:
       - postgres
+      - mcweb
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    environment:
+      BIND: ":8080"
+      DIFFICULTY: "5"
+      # SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://mcweb:8080"
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
+    # network_mode: host
+    restart: always
+    pull_policy: always
+    networks:
+      - mcweb
 networks:
+  mcweb:
   postgres:
     name: postgres
     external: true
