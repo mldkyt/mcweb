@@ -36,7 +36,5 @@ services:
     # network_mode: host
     restart: always
     pull_policy: always
-    ports:
-      - "8005:8080"
     extra_hosts:
       - host.docker.internal:host-gateway
