@@ -2,8 +2,6 @@ services:
   mcstatus:
     build: ./mcstatus1
     env_file: .env
-    networks:
-      - postgres
     restart: always
 
   mcweb:
@@ -17,9 +15,3 @@ services:
       - ./website/02_pgsql.ini:/etc/php85/conf.d/02_pgsql.ini:ro
       - ./website/default.conf:/etc/nginx/conf.d/default.conf:ro
     restart: always
-    networks:
-      - postgres
-networks:
-  postgres:
-    name: postgres
-    external: true
