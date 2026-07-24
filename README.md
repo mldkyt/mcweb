@@ -1,11 +1,11 @@
-# mc.mldchan.dev
+# mc.mldkyt.com
 
 This is a TODO site! Contributions are welcome but this is not done.
 
-- [X] Main page
+- [x] Main page
 - [ ] Player list
-    - [ ] Playtimes
+  - [ ] Playtimes
 - [ ] Gallery
-    - [ ] Let people upload images
+  - [ ] Let people upload images
 - [ ] Sign board
-    - [ ] Let people add signs
+  - [ ] Let people add signs

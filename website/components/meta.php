@@ -1,17 +1,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luna's Minecraft Server</title>
+<title>mldkyt's Minecraft Server</title>
 <link rel="stylesheet" href="/style.css">
-<meta name="description" content="IP: mc.mldchan.dev, version 26.1.2, no Microslop account needed!" />
-<meta name="author" content="lain" />
+<meta name="description" content="IP: mc.mldkyt.com, version 26.1.2, no Microslop account needed!" />
+<meta name="author" content="mldkyt" />
 <meta http-equiv="content-language" content="en" />
-<meta property="og:title" content="Luna's Minecraft Server" />
-<meta property="og:description" content="IP: mc.mldchan.dev, version 26.1.2, no Microslop account needed!" />
+<meta property="og:title" content="mldkyt's Minecraft Server" />
+<meta property="og:description" content="IP: mc.mldkyt.com, version 26.1.2, no Microslop account needed!" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://mc.mldchan.dev" />
-<meta property="og:site_name" content="Luna's Minecraft Server" />
+<meta property="og:url" content="https://mc.mldkyt.com" />
+<meta property="og:site_name" content="mldkyt's Minecraft Server" />
 <meta property="og:locale" content="en_US" />
-<meta name="twitter:title" content="Luna's Minecraft Server" />
-<meta name="twitter:description" content="IP: mc.mldchan.dev, version 26.1.2, no Microslop account needed!" />
+<meta name="twitter:title" content="mldkyt's Minecraft Server" />
+<meta name="twitter:description" content="IP: mc.mldkyt.com, version 26.1.2, no Microslop account needed!" />
 <meta name="fediverse:creator" content="lunya_mc@the-wired.club" />
-<script defer src="https://a.mldchan.dev/script.js" data-website-id="ce6de6da-749c-4387-aabd-4842d4f481f8"></script>
+<script defer src="https://a.mldkyt.com/script.js" data-website-id="ce6de6da-749c-4387-aabd-4842d4f481f8"></script>
