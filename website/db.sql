@@ -19,12 +19,3 @@ CREATE TABLE gallery_items (
     user_name TEXT NOT NULL,
     approved BOOLEAN NOT NULL DEFAULT FALSE
 );
-
-CREATE TABLE signs (
-    id SERIAL PRIMARY KEY,
-    ip TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    file_name TEXT NOT NULL,
-    text TEXT NOT NULL,
-    approved BOOLEAN NOT NULL DEFAULT FALSE
-);
