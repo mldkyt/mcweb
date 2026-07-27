@@ -13,5 +13,5 @@
 <meta property="og:locale" content="en_US" />
 <meta name="twitter:title" content="mldkyt's Minecraft Server" />
 <meta name="twitter:description" content="IP: mc.mldkyt.com, version 26.1.2, no Microslop account needed!" />
-<meta name="fediverse:creator" content="lunya_mc@the-wired.club" />
+<meta name="fediverse:creator" content="mc@soc.mldkyt.com" />
 <script defer src="https://a.mldkyt.com/script.js" data-website-id="ce6de6da-749c-4387-aabd-4842d4f481f8"></script>
