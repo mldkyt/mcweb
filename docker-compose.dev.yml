@@ -12,25 +12,25 @@ services:
     pull_policy: always
     environment:
       - DB_POSTGRES_HOST=postgres
-      - DB_POSTGRES_USER=lunya
-      - DB_POSTGRES_PASSWORD=lunya
-      - DB_POSTGRES_NAME=lunya
-      - ADMIN_USER=lunya
-      - ADMIN_PASS=lunya
+      - DB_POSTGRES_USER=mldkyt
+      - DB_POSTGRES_PASSWORD=mldkyt
+      - DB_POSTGRES_NAME=mldkyt
+      - ADMIN_USER=mldkyt
+      - ADMIN_PASS=mldkyt
 
   postgres:
     image: postgres:17-alpine
     environment:
-      - POSTGRES_USER=lunya
-      - POSTGRES_PASSWORD=lunya
-      - POSTGRES_DB=lunya
+      - POSTGRES_USER=mldkyt
+      - POSTGRES_PASSWORD=mldkyt
+      - POSTGRES_DB=mldkyt
     ports:
       - 5432:5432
 
   pgadmin:
     image: dpage/pgadmin4:9
     environment:
-      PGADMIN_DEFAULT_EMAIL: luna@localhost
-      PGADMIN_DEFAULT_PASSWORD: lunya
+      PGADMIN_DEFAULT_EMAIL: mldkyt@localhost
+      PGADMIN_DEFAULT_PASSWORD: mldkyt
     ports:
       - 9001:80
