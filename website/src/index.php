@@ -14,7 +14,7 @@
         <img src="spawn.webp" alt="Screenshot of a spawn build. There's a staircase on the front resembling a trans flag and a road to the left resembling a trans flag. There's 2 hearts, a trans one and a lesbian one on top. There's 7 beacons forming sort of a T themed with the lesbian and trans flags. The build has walls mostly out of glass, so it's see through. The inside is mostly empty.">
         <p>We have the following plugins installed:</p>
         <ul>
-            <li><strong>Voice Chat!</strong> You can chat with others using the voice chat mod.</li>
+            <li><strong>Voice Chat</strong> You can chat with others using the voice chat mod.</li>
             <li><strong>Essentials</strong> for better admin commands, player chat, warps, homes etc.</li>
             <li><strong>CoreProtect</strong> to revert griefs</li>
             <li><strong>WorldGuard</strong> to protect player builds, and spawn</li>
