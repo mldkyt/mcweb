@@ -2,6 +2,7 @@
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
+            <li><a href="/news">News</a></li>
             <li><a href="/gallery">Gallery</a></li>
             <li><a href="/commands">Commands</a></li>
             <li><a href="https://forms.mldkyt.com/form/gbjtc95w">Whitelist me!</a></li>

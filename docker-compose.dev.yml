@@ -26,11 +26,3 @@ services:
       - POSTGRES_DB=mldkyt
     ports:
       - 5432:5432
-
-  pgadmin:
-    image: dpage/pgadmin4:9
-    environment:
-      PGADMIN_DEFAULT_EMAIL: mldkyt@localhost
-      PGADMIN_DEFAULT_PASSWORD: mldkyt
-    ports:
-      - 9001:80

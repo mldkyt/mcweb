@@ -19,3 +19,11 @@ CREATE TABLE gallery_items (
     user_name TEXT NOT NULL,
     approved BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+CREATE TABLE news (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    publisher TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
