@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "MS UI Gothic", nec_apc3, Verdana, sans-serif;
+    font-family: "JetBrains Mono", monospace;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
@@ -31,7 +31,7 @@ li {
 header {
     max-width: 800px;
     margin: 0 auto;
-    color: #fff;  
+    color: #fff;
 }
 
 header nav {
@@ -62,7 +62,11 @@ main {
     margin: 0 auto;
 }
 
-h2, h3, h4, h5, h6 {
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin: 0 4px;
 }
 
@@ -79,13 +83,14 @@ img {
 }
 
 details > summary {
-    color: #f991df;
+    color: #2ed102;
     cursor: pointer;
     font-size: larger;
     font-weight: bold;
 }
 
-td, th {
+td,
+th {
     font-family: monospace;
     border: 1px solid white;
     padding: 4px;
@@ -102,15 +107,15 @@ table {
 /* Links */
 
 a {
-	color: #f991df;
+    color: #2ed102;
 }
 
 a:hover {
-    color: #8482f7;
+    color: #2d9610;
 }
 
 a:active {
-    color: #4c4af1;
+    color: #065e1f;
 }
 
 /* Footer */
@@ -126,7 +131,7 @@ footer p {
 
 /* code tags */
 code {
-    color: rgb(231, 124, 245);
+    color: #065e1f;
     font-family: monospace;
 }
 

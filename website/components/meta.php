@@ -15,3 +15,6 @@
 <meta name="twitter:description" content="IP: mc.mldkyt.com, version 26.1.2, no Microslop account needed!" />
 <meta name="fediverse:creator" content="mc@soc.mldkyt.com" />
 <script defer src="https://a.mldkyt.com/script.js" data-website-id="ce6de6da-749c-4387-aabd-4842d4f481f8"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
