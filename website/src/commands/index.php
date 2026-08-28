@@ -13,30 +13,20 @@
         <p>The server has many plugins and many commands that can be used by an average player.</p>
 
         <h2>Homes</h2>
-        <p>You can set up to 3 homes. Use the <code>/sethome</code> command with a name to set a home, and <code>/home</code> command to teleport to a home.</p>
+        <p>To set a home on this server, stand in the spot you want to set your home at, and type <code>/home set &lt;name&gt;</code>, replacing &lt;name&gt; with the name of your home. Use <code>/home &lt;name&gt;</code> to teleport to a home.</p>
 
         <h2>Warps</h2>
         <p>You can ask admins if you want to set warps to landmarks and similar stuff. Use the <code>/warp</code> command to teleport to a warp. Some warps are available as signs on spawn.</p>
 
-        <h2>Grief Prevention</h2>
+        <h2>FLAN (Anti grief)</h2>
         <p>To prevent your land from being griefed simply grab a golden shovel and mark your land. By default players get a really generous claim area. If you need more, don't hesitate to contact an admin.</p>
-
-        <p>When chests and other containers are in a claimed area, you can grant other players access using /ContainerTrust if you need it. By default no one else can access or grief your containers. There is no need for locking them.</p>
-
-        <h2>RTP</h2>
-        <p>There's an RTP command. Use the <code>/rtp</code> command to teleport to a random location.</p>
+        <p>You can additionally control additional things, such as what can be done by who in the settings, which can be accessed using <code>/flan menu</code>.</p>
 
         <h2>Skin changing</h2>
         <p>Since this server is cracked, skins are provided by <strong>SkinsRestorer</strong>. You can use the <code>/skin set</code> and then the username to set another player's skin. You can find skins on namemc, typically next to skins are player names.</p>
 
         <h2>Messaging</h2>
-        <p>The <code>/w</code> and <code>/msg</code> commands should allow messaging players, quick reply using <code>/r</code> should work too.</p>
-
-        <h2>Puppygirl</h2>
-        <p>You can put a bone in your mouth by using <code>/hat</code> while holding a bone to become a puppygirl. Cute.</p>
-
-        <h2>Other commands</h2>
-        <p><code>/social</code>, <code>/discord</code>, <code>/xmpp</code>, <code>/matrix</code> and a few others I can't list from my memory bring up social links you can use to get in contact with other people. I recommend Discord as I'm currently the most active there.</p>
+        <p>The standard Minecraft whispering commands <code>/w</code> should work fine.</p>
 
         <p>Stuff might be missing here so please ping me if there's something important missing. </p>
     </main>
