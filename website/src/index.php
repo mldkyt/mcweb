@@ -23,7 +23,7 @@
             <li><strong>ComputerCraft</strong> which enhances the experience with interactable computers, which can be found on info boards around the server or crafted. In addition to computers there are also turtles and many peripherals to play around with. This mod doesn't require any client side mods and doesn't really change in functionality if installed client side.</li>
         </ul>
 
-        <p>I plan to install any mods that might be missing in the future alongside <a href="/commands.php">the usual stuff</a>.</p>
+        <p>I plan to install any mods that might be missing in the future alongside <a href="/commands/">the usual stuff</a>.</p>
 
         <p><strong>Please note this is a semi-survival server.</strong> You can freely ask admins and moderators for items, and if they're e.g. building blocks (coloured wool, concrete etc) they will give it to you. This is to accelerate the building process while not making the server too unfair. I was originally planning to run a creative server but decided for this semi-survival experience.</p>
 
